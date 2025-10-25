@@ -1,0 +1,17 @@
+[package]
+name = "nft_marketplace"
+version = "1.2.0"
+edition = "2024.beta"
+
+[dependencies]
+#Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+
+[addresses]
+nft = "0x0"
+
+[dev-dependencies]
+# Test dependencies are inherited from Sui framework
+
+[dev-addresses]
+# Development addresses for testing
+# nft = "0x0"
