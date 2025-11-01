@@ -21,7 +21,7 @@ module nft::nft_marketplace {
     }
 
     /// A listing resource that holds an NFT for sale
-    /// FIXED: NFT is now stored INSIDE the listing
+    /// ✅ FIXED: NFT is now stored INSIDE the listing
     public struct Listing has key {
         id: UID,
         /// The NFT being sold (stored inside!)
@@ -125,7 +125,7 @@ module nft::nft_marketplace {
     }
 
     /// List an NFT for sale (entry function)
-    /// FIXED: NFT is now stored inside the Listing
+    /// ✅ FIXED: NFT is now stored inside the Listing
     entry fun list_nft_for_sale(
         nft: DevNetNFT,
         price: u64,
@@ -138,7 +138,7 @@ module nft::nft_marketplace {
         
         let listing = Listing {
             id: object::new(ctx),
-            nft,  // Store NFT inside listing
+            nft,  // ✅ Store NFT inside listing
             price,
             seller,
         };
@@ -152,12 +152,12 @@ module nft::nft_marketplace {
             price,
         });
         
-        // Just share the listing - NFT is inside it
+        // ✅ Just share the listing - NFT is inside it
         transfer::share_object(listing);
     }
 
     /// Purchase a listed NFT (entry function)
-    /// NFT is extracted from listing and transferred to buyer
+    /// ✅ FIXED: NFT is extracted from listing and transferred to buyer
     entry fun buy_nft(
         listing: Listing,
         mut payment: coin::Coin<SUI>,
@@ -166,7 +166,7 @@ module nft::nft_marketplace {
     ) {
         let Listing {
             id: listing_id,
-            nft,  // Extract NFT from listing
+            nft,  // ✅ Extract NFT from listing
             price,
             seller,
         } = listing;
@@ -191,7 +191,7 @@ module nft::nft_marketplace {
         // Transfer payment to seller
         transfer::public_transfer(seller_coin, seller);
         
-        // Transfer NFT to buyer!
+        // ✅ Transfer NFT to buyer!
         transfer::public_transfer(nft, buyer);
         
         // Return excess payment to buyer
@@ -213,7 +213,7 @@ module nft::nft_marketplace {
     }
 
     /// Delist an NFT (entry function)
-    /// Returns NFT to seller
+    /// ✅ FIXED: Returns NFT to seller
     entry fun cancel_listing(
         listing: Listing,
         ctx: &TxContext
@@ -223,7 +223,7 @@ module nft::nft_marketplace {
         
         let Listing {
             id: listing_id,
-            nft,  // Extract NFT
+            nft,  // ✅ Extract NFT
             price: _,
             seller,
         } = listing;
@@ -235,7 +235,7 @@ module nft::nft_marketplace {
             nft_id,
         });
         
-        // Return NFT to seller
+        // ✅ Return NFT to seller
         transfer::public_transfer(nft, seller);
         
         object::delete(listing_id);
@@ -285,7 +285,7 @@ module nft::nft_marketplace {
         
         let listing = Listing {
             id: object::new(ctx),
-            nft,  // Store NFT inside
+            nft,  // ✅ Store NFT inside
             price,
             seller,
         };
@@ -311,7 +311,7 @@ module nft::nft_marketplace {
     ): option::Option<coin::Coin<SUI>> {
         let Listing {
             id: listing_id,
-            nft,  // Extract NFT
+            nft,  // ✅ Extract NFT
             price,
             seller,
         } = listing;
@@ -331,7 +331,7 @@ module nft::nft_marketplace {
         balance::join(&mut marketplace.balance, coin::into_balance(fee_coin));
         transfer::public_transfer(seller_coin, seller);
         
-        // Transfer NFT to buyer
+        // ✅ Transfer NFT to buyer
         transfer::public_transfer(nft, buyer);
         
         sui::event::emit(PurchaseNFTEvent {
@@ -362,7 +362,7 @@ module nft::nft_marketplace {
         
         let Listing {
             id: listing_id,
-            nft,  // Extract NFT
+            nft,  // ✅ Extract NFT
             price: _,
             seller,
         } = listing;
@@ -374,7 +374,7 @@ module nft::nft_marketplace {
             nft_id,
         });
         
-        // Return NFT to seller
+        // ✅ Return NFT to seller
         transfer::public_transfer(nft, seller);
         
         object::delete(listing_id);
